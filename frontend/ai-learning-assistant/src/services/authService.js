@@ -1,6 +1,16 @@
 import axiosInstance from "../utils/axiosInstance";
 import { API_PATHS } from "../utils/apiPaths";
 
+const normalizeError = (error) => {
+  const responseData = error.response?.data;
+  const message =
+    responseData?.message ||
+    responseData?.error ||
+    error.message ||
+    "An unknown error occurred";
+  return { message };
+};
+
 const login = async (email, password) => {
   try {
     const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
@@ -9,7 +19,7 @@ const login = async (email, password) => {
     });
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "An unknown error occurred" };
+    throw normalizeError(error);
   }
 };
 
@@ -22,7 +32,7 @@ const register = async (username, email, password) => {
     });
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "An unknown error occured" };
+    throw normalizeError(error);
   }
 };
 
@@ -31,7 +41,7 @@ const getProfile = async () => {
     const response = await axiosInstance.get(API_PATHS.AUTH.GET_PROFILE);
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "An unknown error occurred" };
+    throw normalizeError(error);
   }
 };
 
@@ -43,7 +53,7 @@ const updateProfile = async (userData) => {
     );
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "An unknown error occurred" };
+    throw normalizeError(error);
   }
 };
 
@@ -55,7 +65,7 @@ const changePassword = async (passwords) => {
     );
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "An unknown error occurred" };
+    throw normalizeError(error);
   }
 };
 

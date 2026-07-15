@@ -13,12 +13,21 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
  const [user, setUser] = useState(null);
  const [loading, setLoading] = useState(true);
- const [isAuthenticated, setAuthenticated] = useState(false);
+ const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+ const logout = () => {
+  localStorage.removeItem('token')
+  localStorage.removeItem('user')
+
+  setUser(null);
+  setIsAuthenticated(false)
+ }
 
  useEffect(() => {
   checkAuthStatus();
  }, [])
- const checheckAuthStatus = async () => {
+
+ const checkAuthStatus = async () => {
   try {
    const token = localStorage.getItem('token')
    const userStr = localStorage.getItem('user')
@@ -26,7 +35,10 @@ export const AuthProvider = ({ children }) => {
    if (token && userStr) {
     const userData = JSON.parse(userStr);
     setUser(userData);
-    setAuthenticated(true);
+    setIsAuthenticated(true);
+   } else {
+    setUser(null);
+    setIsAuthenticated(false);
    }
   } catch (error) {
    console.error('Auth check failed:', error)
@@ -41,9 +53,28 @@ export const AuthProvider = ({ children }) => {
   localStorage.setItem('user', JSON.stringify(userData));
 
   setUser(userData);
-  setAuthenticated(true)
+  setIsAuthenticated(true)
  }
- const value = {};
+
+ const updateUser = (updatedUserData) => {
+  const newUserData = {
+   ...user,
+   ...updatedUserData,
+  }
+
+  localStorage.setItem('user', JSON.stringify(newUserData));
+  setUser(newUserData);
+ }
+
+ const value = {
+  user,
+  loading,
+  isAuthenticated,
+  login,
+  logout,
+  updateUser,
+  checkAuthStatus,
+ };
 
  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

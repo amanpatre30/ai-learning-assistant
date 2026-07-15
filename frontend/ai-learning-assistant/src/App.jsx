@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext.jsx';
 
 import LoginPage from "./pages/Auth/LoginPage";
 import RegisterPage from "./pages/Auth/RegisterPage";
@@ -22,9 +23,7 @@ import ProfilePage from "./pages/Profile/ProfilePage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 const App = () => {
-
-  const isAuthenticated = true;
-  const loading = false;
+  const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
     return (
