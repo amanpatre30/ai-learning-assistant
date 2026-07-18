@@ -7,6 +7,7 @@ import {
   User,
   LogOut,
   BrainCircuit,
+  BookOpen,
   X,
 } from "lucide-react";
 
@@ -22,6 +23,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   const navLinks = [
     { to: "/dashboard", icon: LayoutDashboard, text: "Dashboard" },
     { to: "/documents", icon: FileText, text: "Documents" },
+    { to: "/flashcards", icon: BookOpen, text: "Flashcards" },
     { to: "/profile", icon: User, text: "Profile" },
   ];
 
