@@ -83,7 +83,31 @@ const ChatInterface = () => {
  };
 
  const renderMessage = (msg, index) => {
-  return "renderMessage";
+  const isUser = msg.role === 'user';
+  return (
+   <div key={index} className={`flex items-start gap-3 my-4 ${isUser ? 'justify-end' : ''}`}>
+    {!isUser && (
+     <div className="">
+      <Sparkles className="" strokeWidth={2} />
+     </div>
+    )}
+    <div className={`,ax-w-lg p-4 rounded-2xl shadow-sm ${isUser ? 'bg-linear-to-br from-emerald-500 to-teal-500 text-white rounded-br-md' : 'bg-white border border-slate-200/60 text-slate-800 rounded-bl-md'
+     }`}>
+     {isUser ? (
+      <p className="">{msg.content}</p>
+     ) : (
+      <div className="">
+       <MarkdownRenderer content={msg.content} />
+      </div>
+     )}
+    </div>
+    {isUser && (
+     <div className="">
+      {user?.username?.charAt(0).toUpperCase() || 'U'}
+     </div>
+    )}
+   </div>
+  )
  };
 
  if (initialLoading) {
@@ -158,6 +182,27 @@ const ChatInterface = () => {
       </div>
      </div>
     )}
+   </div>
+
+   {/**Input Area */}
+   <div className="p-5 border-t border-slate-200/60 bg-white/80">
+    <form onSubmit={handleSendMessage} className="flex items-center gap-3">
+     <input
+      type="text"
+      value={message}
+      onChange={(e) => setMessage(e.target.value)}
+      placeholder="Ask a follow-up question..."
+      className="flex-1 h-12 px-4 border-2 border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder-slate-400 text-sm font-medium transition-all duration-200 focus:outline-none focus:border-emerald-500 focus:bg-white focus:shadow-lg focus:shadow-emerald-500/10"
+     />
+
+     <button
+      type="submit"
+      disabled={loading || !message.trim()}
+      className="shrink-0 w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 flex items-center justify-center"
+     >
+      <Send className="w-5 h-5" strokeWidth={2} />
+     </button>
+    </form>
    </div>
   </div>
  );

@@ -5,6 +5,7 @@ import Spinner from "../../components/common/Spinner";
 import toast from 'react-hot-toast';
 import { ArrowLeft, ExternalLink } from 'lucide-react'
 import PageHeader from "../../components/common/PageHeader"
+import ChatInterface from "../../components/chat/ChatInterface"
 import Tabs from "../../components/common/Tabs"
 
 const DocumentDetailPage = () => {
